@@ -20,6 +20,7 @@ const router = express.Router();
 
 router.route("/register").post(singleUpload, registerUser);
 router.route("/login").post(loginUser);
+
 router.route("/get-user-info-by-id").get(Authenticate, getUserById);
 router.route("/update-profile").put(Authenticate, updateProfile);
 router.route("/get-all-users").get(getAllUser);

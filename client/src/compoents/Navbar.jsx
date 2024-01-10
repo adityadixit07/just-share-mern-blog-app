@@ -67,24 +67,16 @@ const Navbar = () => {
               </Link>
             </div>
           )}
-
-          {/* <div className="hidden md:flex items-center space-x-4">
-            <Link to="/" className="hover:text-gray-300">
-              Home
-            </Link>
-            <Link to="/about" className="hover:text-gray-300">
-              About
-            </Link>
-            <Link to="/services" className="hover:text-gray-300">
-              Services
-            </Link>
-            <Link to="/contact" className="hover:text-gray-300">
-              Contact
-            </Link>
-          </div>
-          */}
-
-          <div className="md:hidden flex items-center">
+          <div className="md:hidden flex items-center gap-5">
+            <button>
+              {isOpen===false && (
+                <img
+                  src={user?.avatar?.url}
+                  alt="avatar"
+                  className="w-10 h-10 rounded-full object-cover"
+                />
+              )}
+            </button>
             <button onClick={toggleNavbar}>
               {isOpen ? <FaTimes /> : <FaBars />}
             </button>
