@@ -26,8 +26,6 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cors({ origin: "*", credentials: true }));
 app.use(morgan("dev"));
 
-
-
 // routes
 app.use("/api/user", userRouter);
 
@@ -37,7 +35,7 @@ app.use("/api/post", postRouter);
 if (process.env.NODE_ENV === "production") {
   app.use(express.static("./client/dist"));
 }
- 
+
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const staticPath = path.join(__dirname, "./client/dist");
 app.use(express.static(staticPath));
