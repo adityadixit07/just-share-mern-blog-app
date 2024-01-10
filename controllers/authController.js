@@ -371,3 +371,29 @@ export const getUserProfile = catchAsyncError(async (req, res, next) => {
     data: user,
   });
 });
+
+// update avatar of the logged in user
+export const updateAvatar = catchAsyncError(async (req, res, next) => {
+  const user = await UserModel.findOne({ _id: req.body.userId });
+  console.log(req.body.userId,'asdfasf');
+  if (!user) {
+    return next(new ErrorHandler("User not found", 404, false));
+  }
+  const file = req.file;
+  const fileUri = getDataUri(file);
+  const mycloud = await cloudinary.v2.uploader.upload(fileUri.content);
+  // console.log(mycloud.public_id,"public id");
+
+  // destroy the previous image
+  await cloudinary.v2.uploader.destroy(user.avatar.public_id);
+  user.avatar = {
+    public_id: mycloud.public_id,
+    url: mycloud.secure_url,
+  };
+  await user.save();
+  res.status(200).json({
+    success: true,
+    message: "Avatar updated successfully",
+    data: user,
+  });
+});

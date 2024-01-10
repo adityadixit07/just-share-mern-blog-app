@@ -5,7 +5,6 @@ import { useEffect, useState } from "react";
 import { hideLoading, showLoading } from "../../redux/reducers/alertsSlice";
 import { Link, useNavigate } from "react-router-dom";
 import { RiDeleteBinLine, RiEdit2Fill } from "react-icons/ri";
-import { getOtherUserdetail } from "../../redux/actions/userAction";
 import {
   updatePostLength,
   updateUserProfile,
@@ -90,6 +89,11 @@ const UserProfile = () => {
     }
   };
 
+  // edit avatar
+  const handleEditAvatar = () => {
+    toast.error("Eeature is under development. Sorry for inconvenience");
+  };
+
   useEffect(() => {
     getAllPosts();
   }, [user]);
@@ -102,12 +106,19 @@ const UserProfile = () => {
 
         <div className="md:w-3/4 md:pl-8 flex  justify-center gap-12 flex-wrap">
           {/* user avatar */}
-          <div className="mb-2 md:mb-0">
+          <div className="mb-2 md:mb-0 relative">
             <img
               src={user?.avatar?.url}
               alt="User Avatar"
               className="w-32 h-32 rounded-full object-cover"
             />
+            {/* Edit icon */}
+            <div
+              className="absolute top-0 right-0 p-1 bg-white rounded-full cursor-pointer hover:bg-gray-200 transition duration-300"
+              onClick={handleEditAvatar}
+            >
+              <RiEdit2Fill className="text-blue-500" size={24} />
+            </div>
           </div>
           {/* user name  */}
           <div>

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { FaBars, FaTimes } from "react-icons/fa";
 import { useSelector, useDispatch } from "react-redux";
-import { Link, useNavigate } from "react-router-dom"; // Import Link from react-router-dom
+import { Link, useNavigate } from "react-router-dom";
 import { logoutUser } from "../redux/reducers/userReducer";
 import toast from "react-hot-toast";
 import { RiLogoutCircleLine, RiAddCircleLine } from "react-icons/ri";
@@ -16,9 +16,11 @@ const Navbar = () => {
   const { user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
   const handleLogout = () => {
     dispatch(logoutUser());
     toast.success("Logout successfully");
+    setIsOpen(false);
     navigate("/login");
   };
   return (
@@ -69,7 +71,7 @@ const Navbar = () => {
           )}
           <div className="md:hidden flex items-center gap-5">
             <button>
-              {isOpen===false && (
+              {isOpen === false && user && (
                 <img
                   src={user?.avatar?.url}
                   alt="avatar"
@@ -97,6 +99,7 @@ const Navbar = () => {
                       <Link
                         to="/user"
                         className="hover:text-gray-300 text-white font-semibold text-xl"
+                        onClick={() => setIsOpen(false)}
                       >
                         {user?.name}
                       </Link>
@@ -122,6 +125,7 @@ const Navbar = () => {
                     <Link
                       to="/form"
                       className="hover:text-orange-300 flex justify-start items-center gap-2"
+                      onClick={() => setIsOpen(false)}
                     >
                       <span className="text-[15px] font-semibold">
                         Create Post
@@ -135,12 +139,20 @@ const Navbar = () => {
               ) : (
                 <>
                   <li>
-                    <Link to="/login" className="hover:text-gray-300">
+                    <Link
+                      to="/login"
+                      className="hover:text-gray-300"
+                      onClick={() => setIsOpen(false)}
+                    >
                       Login
                     </Link>
                   </li>
                   <li>
-                    <Link to="/register" className="hover:text-gray-300">
+                    <Link
+                      to="/register"
+                      className="hover:text-gray-300"
+                      onClick={() => setIsOpen(false)}
+                    >
                       Register
                     </Link>
                   </li>

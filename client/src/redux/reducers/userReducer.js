@@ -77,6 +77,13 @@ const authSlice = createSlice({
       };
       console.log(name, "name", email, "email");
     },
+    updateUserAvatar: (state, action) => {
+      const { avatar } = action.payload;
+      state.user = {
+        ...state.user,
+        avatar: avatar,
+      };
+    },
   },
   extraReducers: (builder) => {
     // register
@@ -146,5 +153,6 @@ export const {
   updatePostLength,
   updateUserProfile,
   unfollowUser,
+  updateUserAvatar,
 } = authSlice.actions;
 export default authSlice;
