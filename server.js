@@ -26,9 +26,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cors({ origin: "*", credentials: true }));
 app.use(morgan("dev"));
 
-app.get("/", (req, res) => {
-  res.send("Hello World");
-});
+
 
 // routes
 app.use("/api/user", userRouter);
