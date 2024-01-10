@@ -1,7 +1,7 @@
 import { catchAsyncError } from "../midddlewares/catchAsyncError.js";
 import ErrorHandler from "../midddlewares/errorHandler.js";
 import { PostModel } from "../models/postSchema/PostModel.js";
-import { UserModel } from "../models/userSchema/userModel.js";
+import { UserModel } from "../models/userSchema/UserModel.js";
 import getDataUri from "../utils/dataUri.js";
 import cloudinary from "cloudinary";
 
