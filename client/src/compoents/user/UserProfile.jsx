@@ -91,7 +91,7 @@ const UserProfile = () => {
 
   // edit avatar
   const handleEditAvatar = () => {
-    toast.error("Eeature is under development. Sorry for inconvenience");
+    toast.error("Feature is under development. Sorry for inconvenience");
   };
 
   useEffect(() => {
