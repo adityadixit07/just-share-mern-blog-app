@@ -2,8 +2,9 @@ import express from "express";
 import {
   changePassword,
   followUser,
-  forgetPassword,
   getAllUser,
+  getFollowers,
+  getFollowings,
   getOtherUserDetail,
   getOtherUserPost,
   getUserById,
@@ -36,5 +37,9 @@ router.route("/get-other-user-details").get(getOtherUserDetail);
 router.route("/other-user-posts/:id").get(Authenticate, getOtherUserPost);
 
 router.route("/profile/:userId").get(getUserProfile);
+
+// get following and followes list
+router.route("/followings").get(Authenticate, getFollowings);
+router.route("/followers").get(Authenticate, getFollowers);
 
 export const userRouter = router;

@@ -15,6 +15,7 @@ import ProtectedRoute from "./utils/ProtectedRoute";
 import PostForm from "./pages/post/PostForm";
 import SinglePost from "./pages/post/SinglePost";
 import SeeProfile from "./compoents/profile/SeeProfile";
+import ViewPost from "./compoents/profile/ViewPost";
 
 const App = () => {
   const { loading } = useSelector((state) => state.alerts);
@@ -25,7 +26,7 @@ const App = () => {
           <h1 className="text-3xl font-bold text-gray-800">Loading...</h1>
         </div>
       )}
-      <Toaster position="bottom-center" reverseOrder={false} />
+      <Toaster position="top-center" reverseOrder={false} />
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
@@ -53,7 +54,8 @@ const App = () => {
           }
         />
         <Route path="/user/post/:postId" element={<SinglePost />} />
-        <Route path='/user/profile/:userId' element={<SeeProfile/>}/>
+        <Route path="/user/profile/:userId" element={<SeeProfile />} />
+        <Route path="/user/profile/post/:postId" element={<ViewPost/>} />
       </Routes>
     </BrowserRouter>
   );

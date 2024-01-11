@@ -18,6 +18,9 @@ router.route("/delete-post/:id").delete(Authenticate, deletePost);
 router.route("/get-all-posts/:id").get(Authenticate, getAllPost);
 router.route("/get-post-by-id/:id").get(Authenticate, getSinglePostInfo);
 
+// to see the post of a general user
+router.route("/user-post/:id").get(getSinglePostInfo);
+
 
 router.route('/user-posts/:userId').get(getUserPost);
 

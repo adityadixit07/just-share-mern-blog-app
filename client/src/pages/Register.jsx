@@ -106,7 +106,7 @@ const Register = () => {
                 className="absolute inset-y-0 right-0 flex items-center px-2 focus:outline-none"
                 onClick={togglePasswordVisibility}
               >
-                {showPassword ? <FaEye /> : <FaEyeSlash />}
+                {showPassword ? <FaEyeSlash /> : <FaEye />}
               </button>
             </div>
             {/* upload file */}

@@ -337,27 +337,6 @@ export const forgetPassword = catchAsyncError(async (req, res, next) => {
   }
 });
 
-// export const getSinglePost = async (req, res) => {
-//   try {
-//     const { email } = req.body;
-//     const user = await UserModel.findOne({ email });
-//     const post = user.posts[0];
-//     console.log(post._id + "adads");
-//     if (post) {
-//       const findPost = await PostModel.findOne({ _id: post._id });
-//       return res.status(200).json({
-//         message: "found",
-//         data: findPost,
-//       });
-//     }
-//   } catch (error) {
-//     res.status(500).json({
-//       success: false,
-//       message: "server error on getting single post",
-//     });
-//   }
-// };
-
 export const getUserProfile = catchAsyncError(async (req, res, next) => {
   const { userId } = req.params;
   // console.log(userId);
@@ -375,7 +354,7 @@ export const getUserProfile = catchAsyncError(async (req, res, next) => {
 // update avatar of the logged in user
 export const updateAvatar = catchAsyncError(async (req, res, next) => {
   const user = await UserModel.findOne({ _id: req.body.userId });
-  console.log(req.body.userId,'asdfasf');
+  console.log(req.body.userId, "asdfasf");
   if (!user) {
     return next(new ErrorHandler("User not found", 404, false));
   }
@@ -395,5 +374,59 @@ export const updateAvatar = catchAsyncError(async (req, res, next) => {
     success: true,
     message: "Avatar updated successfully",
     data: user,
+  });
+});
+
+// get following list
+export const getFollowings = catchAsyncError(async (req, res, next) => {
+  if (req.body.userId === null) {
+    return next(new ErrorHandler("Please login first", 400, false));
+  }
+  const followingList = await UserModel.findOne({
+    _id: req.body.userId,
+  }).select("following");
+  const EachFollowingDetail = [];
+  for (let i = 0; i < followingList.following.length; i++) {
+    const follower = await UserModel.findOne({
+      _id: followingList.following[i],
+    });
+    // ab har ek follower ka name avatar aur id extract karna hai
+    EachFollowingDetail.push({
+      name: follower.name,
+      avatar: follower.avatar.url,
+      _id: follower._id,
+    });
+  }
+
+  res.status(200).json({
+    success: true,
+    message: "following list",
+    data: EachFollowingDetail,
+  });
+});
+
+export const getFollowers = catchAsyncError(async (req, res, next) => {
+  if (req.body.UserId === null) {
+    return next(new ErrorHandler("Please login first", 400, false));
+  }
+  const followersList = await UserModel.findOne({
+    _id: req.body.userId,
+  }).select("followers");
+  const EachFollowersDetail = [];
+  for (let i = 0; i < followersList.followers.length; i++) {
+    const follower = await UserModel.findOne({
+      _id: followersList.followers[i],
+    });
+    // ab har ek follower ka name avatar aur id extract karna hai
+    EachFollowersDetail.push({
+      name: follower.name,
+      avatar: follower.avatar.url,
+      _id: follower._id,
+    });
+  }
+  res.status(200).json({
+    success: true,
+    message: "followers list",
+    data: EachFollowersDetail,
   });
 });

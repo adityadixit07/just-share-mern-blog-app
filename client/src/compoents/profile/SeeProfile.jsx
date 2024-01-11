@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import API from "../../utils/API";
 import { hideLoading, showLoading } from "../../redux/reducers/alertsSlice";
@@ -17,7 +17,7 @@ const SeeProfile = () => {
       const response = await API.get(`/user/profile/${userId}`);
       const { data } = response;
       if (data?.success) {
-        setUser(data?.data); // Assuming the user data is within the 'data' field
+        setUser(data?.data);
       }
     } catch (error) {
       toast.error("User not found");
@@ -40,7 +40,13 @@ const SeeProfile = () => {
       dispatch(hideLoading());
     }
   };
-  console.log(posts, "post");
+  // console.log(posts, "post");
+
+  const navigate = useNavigate();
+  const naviagteToPost = (postId) => {
+    navigate(`/user/profile/post/${postId}`);
+  };
+
   useEffect(() => {
     getUser();
     getPosts();
@@ -91,7 +97,10 @@ const SeeProfile = () => {
                     ? `${post?.description.substring(0, 100)}...`
                     : `${post?.description}`}
                 </p>
-                <button className="mt-2 py-1 px-3 bg-blue-500 text-white rounded-md font-semibold hover:bg-blue-600 transition duration-300">
+                <button
+                  className="mt-2 py-1 px-3 bg-blue-500 text-white rounded-md font-semibold hover:bg-blue-600 transition duration-300"
+                  onClick={() => naviagteToPost(post?._id)}
+                >
                   Read More
                 </button>
               </div>
