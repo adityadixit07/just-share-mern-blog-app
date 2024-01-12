@@ -1,6 +1,5 @@
 import toast from "react-hot-toast";
 import API from "./API";
-
 export const followUser = async (followUserId) => {
   try {
     const response = await API.post(`/user/follow/${followUserId}`, {
@@ -53,17 +52,16 @@ export const fetchFollowersList = async (userId) => {
   }
 };
 
-
-export const fetchFollowingList=async(userId)=>{
-  try{
-    const response=await API.get(`/user/followings/${userId}`);
-    const {data}=response;
+export const fetchFollowingList = async (userId) => {
+  try {
+    const response = await API.get(`/user/followings/${userId}`);
+    const { data } = response;
     // console.log(data);
-    if(data?.success){
+    if (data?.success) {
       toast.success(data?.message);
     }
     return data?.data;
-  }catch(error){
+  } catch (error) {
     toast.error(error?.response?.data?.message);
   }
-}
+};

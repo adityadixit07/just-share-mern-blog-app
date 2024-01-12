@@ -190,7 +190,7 @@ const RandomPosts = () => {
                 className="px-3 py-1 bg-blue-500 text-white rounded-md font-semibold"
               >
                 {user?.following?.includes(post?.userId)
-                  ? "Unfollow"
+                  ? "Following"
                   : "Follow"}
               </button>
             </div>

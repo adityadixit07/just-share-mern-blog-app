@@ -380,7 +380,7 @@ export const updateAvatar = catchAsyncError(async (req, res, next) => {
 // get following list
 export const getFollowings = catchAsyncError(async (req, res, next) => {
   const { userId } = req.params;
-  console.log(userId);
+  // console.log(userId);
   if (req.body.userId === null) {
     return next(new ErrorHandler("Please login first", 400, false));
   }
@@ -402,14 +402,14 @@ export const getFollowings = catchAsyncError(async (req, res, next) => {
 
   res.status(200).json({
     success: true,
-    message: "following list",
+    message: "Followings",
     data: EachFollowingDetail,
   });
 });
 
 export const getFollowers = catchAsyncError(async (req, res, next) => {
   const { userId } = req.params;
-  console.log(userId);
+  // console.log(userId);
   if (req.body.UserId === null) {
     return next(new ErrorHandler("Please login first", 400, false));
   }
@@ -430,7 +430,7 @@ export const getFollowers = catchAsyncError(async (req, res, next) => {
   }
   res.status(200).json({
     success: true,
-    message: "followers list",
+    message: "Followers",
     data: EachFollowersDetail,
   });
 });

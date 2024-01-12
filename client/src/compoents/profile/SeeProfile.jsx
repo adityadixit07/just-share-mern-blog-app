@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useNavigate, useParams } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import API from "../../utils/API";
 import { hideLoading, showLoading } from "../../redux/reducers/alertsSlice";
+import { fetchFollowersList, fetchFollowingList } from "../../utils/helperAPI";
+import Modal from "../../utils/Modal";
 
 const SeeProfile = () => {
+  const { isAuthenticated } = useSelector((state) => state.auth);
   const { userId } = useParams();
   const [user, setUser] = useState(null);
   const [posts, setPosts] = useState([]);
@@ -47,6 +50,44 @@ const SeeProfile = () => {
     navigate(`/user/profile/post/${postId}`);
   };
 
+  const [showFollowerModal, setShowFollowerModal] = useState(false);
+  const [followers, setFollowers] = useState(false);
+  const [showFollowingModal, setShowFollowingModal] = useState(false);
+  const [following, setFollowing] = useState(false);
+  const handleOpenFollowerModal = async () => {
+    dispatch(showLoading());
+    try {
+      const res = await fetchFollowersList(userId);
+      // console.log(res, "followers list");
+      setFollowers(res);
+      setShowFollowerModal(true);
+    } catch (error) {
+      toast.error(error.message);
+    } finally {
+      dispatch(hideLoading());
+    }
+  };
+  const handleCloseModalFollower = () => {
+    setShowFollowerModal(false);
+  };
+
+  const handleOpenFollowingModal = async () => {
+    dispatch(showLoading());
+    try {
+      const res = await fetchFollowingList(userId);
+      // console.log(res, "following list");
+      setFollowing(res);
+      setShowFollowingModal(true);
+    } catch (error) {
+      toast.error(error.message);
+    } finally {
+      dispatch(hideLoading());
+    }
+  };
+  const handleCloseModalFollowing = () => {
+    setShowFollowingModal(false);
+  };
+
   useEffect(() => {
     getUser();
     getPosts();
@@ -59,19 +100,25 @@ const SeeProfile = () => {
           <img
             src={user?.avatar?.url}
             alt=""
-            className="h-20 w-20 rounded-full"
+            className="h-20 w-20 rounded-full object-contain"
           />
           <h2 className="text-xl font-semibold">{user?.name}</h2>
           <div className="flex justify-center gap-4">
-            <div>
+            <div
+              className="flex justify-center items-center flex-col cursor-pointer"
+              onClick={handleOpenFollowerModal}
+            >
               <p className="font-semibold">Followers</p>
               <p>{user?.followers.length}</p>
             </div>
-            <div>
+            <div
+              className="flex justify-center items-center flex-col cursor-pointer"
+              onClick={handleOpenFollowingModal}
+            >
               <p className="font-semibold">Following</p>
               <p>{user?.following.length}</p>
             </div>
-            <div>
+            <div className="flex justify-center items-center flex-col">
               <p className="font-semibold">Posts</p>
               <p>{user?.posts.length}</p>
             </div>
@@ -108,6 +155,23 @@ const SeeProfile = () => {
           ))}
         </div>
       </div>
+
+      {/* followers list modal */}
+      {isAuthenticated && showFollowerModal && (
+        <Modal
+          title={"Followers"}
+          data={followers}
+          onClose={handleCloseModalFollower}
+        />
+      )}
+      {/* folllowing list modal */}
+      {isAuthenticated && showFollowingModal && (
+        <Modal
+          title={"Following"}
+          data={following}
+          onClose={handleCloseModalFollowing}
+        />
+      )}
     </div>
   );
 };

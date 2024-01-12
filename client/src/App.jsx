@@ -16,16 +16,20 @@ import PostForm from "./pages/post/PostForm";
 import SinglePost from "./pages/post/SinglePost";
 import SeeProfile from "./compoents/profile/SeeProfile";
 import ViewPost from "./compoents/profile/ViewPost";
+import Loader from "./utils/Loader";
 
 const App = () => {
   const { loading } = useSelector((state) => state.alerts);
+
   return (
     <BrowserRouter>
       {loading && (
-        <div className="fixed top-0 left-0 right-0 bottom-0 bg-gray-100 flex justify-center items-center z-50">
-          <h1 className="text-3xl font-bold text-gray-800">Loading...</h1>
-        </div>
+        <Loader />
+        // <div className="fixed top-0 left-0 right-0 bottom-0 bg-gray-100 flex justify-center items-center z-50">
+        //   <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-blue-500 border-solid"></div>
+        // </div>
       )}
+
       <Toaster position="bottom-center" reverseOrder={false} />
       <Navbar />
       <Routes>
@@ -55,7 +59,7 @@ const App = () => {
         />
         <Route path="/user/post/:postId" element={<SinglePost />} />
         <Route path="/user/profile/:userId" element={<SeeProfile />} />
-        <Route path="/user/profile/post/:postId" element={<ViewPost/>} />
+        <Route path="/user/profile/post/:postId" element={<ViewPost />} />
       </Routes>
     </BrowserRouter>
   );

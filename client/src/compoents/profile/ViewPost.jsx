@@ -28,7 +28,7 @@ const ViewPost = () => {
   }, [postId]);
 
   return (
-    <div className="container mx-auto my-8 mt-[6rem]">
+    <div className="container mx-auto my-8 mt-[6rem] px-4">
       {post?.length === 0 && (
         <h1 className="text-2xl text-red-500">Post not found</h1>
       )}
