@@ -9,6 +9,8 @@ import {
   updatePostLength,
   updateUserProfile,
 } from "../../redux/reducers/userReducer";
+import { fetchFollowersList, fetchFollowingList } from "../../utils/helperAPI";
+import Modal from "../../utils/Modal";
 
 const UserProfile = () => {
   const { user } = useSelector((state) => state.auth);
@@ -18,6 +20,38 @@ const UserProfile = () => {
   const [showEditModal, setShowEditModal] = useState(false);
   const [updatedName, setUpdatedName] = useState("");
   const [updatedEmail, setUpdatedEmail] = useState("");
+
+  const [showFollowerModal, setShowFollowerModal] = useState(false);
+  const [followers, setFollowers] = useState(false);
+  const handleOpenFollowerModal = async () => {
+    try {
+      const res = await fetchFollowersList(user?._id);
+      // console.log(res, "followers list");
+      setFollowers(res);
+      setShowFollowerModal(true);
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
+  const handleCloseModalFollower = () => {
+    setShowFollowerModal(false);
+  };
+
+  const [showFollowingModal, setShowFollowingModal] = useState(false);
+  const [following, setFollowing] = useState(false);
+  const handleOpenFollowingModal = async () => {
+    try {
+      const res = await fetchFollowingList(user?._id);
+      // console.log(res, "following list");
+      setFollowing(res);
+      setShowFollowingModal(true);
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
+  const handleCloseModalFollowing = () => {
+    setShowFollowingModal(false);
+  };
 
   // get all posts
   const getAllPosts = async () => {
@@ -139,7 +173,10 @@ const UserProfile = () => {
                 <p className="text-lg font-semibold">
                   {user?.followers.length}
                 </p>
-                <p className="text-sm text-gray-600 font-semibold hover:text-gray-800">
+                <p
+                  className="text-sm text-gray-600 font-semibold hover:text-gray-800"
+                  onClick={handleOpenFollowerModal}
+                >
                   Followers
                 </p>
               </div>
@@ -148,7 +185,10 @@ const UserProfile = () => {
                 <p className="text-lg font-semibold">
                   {user?.following.length}
                 </p>
-                <p className="text-sm text-gray-600 font-semibold hover:text-gray-800">
+                <p
+                  className="text-sm text-gray-600 font-semibold hover:text-gray-800"
+                  onClick={handleOpenFollowingModal}
+                >
                   Following
                 </p>
               </div>
@@ -247,6 +287,23 @@ const UserProfile = () => {
             </div>
           </div>
         </div>
+      )}
+
+      {/* followers list modal */}
+      {showFollowerModal && (
+        <Modal
+          title={"Followers"}
+          data={followers}
+          onClose={handleCloseModalFollower}
+        />
+      )}
+      {/* folllowing list modal */}
+      {showFollowingModal && (
+        <Modal
+          title={"Following"}
+          data={following}
+          onClose={handleCloseModalFollowing}
+        />
       )}
     </div>
   );

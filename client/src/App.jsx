@@ -26,7 +26,7 @@ const App = () => {
           <h1 className="text-3xl font-bold text-gray-800">Loading...</h1>
         </div>
       )}
-      <Toaster position="top-center" reverseOrder={false} />
+      <Toaster position="bottom-center" reverseOrder={false} />
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />

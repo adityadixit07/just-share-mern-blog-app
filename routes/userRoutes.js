@@ -39,7 +39,7 @@ router.route("/other-user-posts/:id").get(Authenticate, getOtherUserPost);
 router.route("/profile/:userId").get(getUserProfile);
 
 // get following and followes list
-router.route("/followings").get(Authenticate, getFollowings);
-router.route("/followers").get(Authenticate, getFollowers);
+router.route("/followings/:userId").get(Authenticate, getFollowings);
+router.route("/followers/:userId").get(Authenticate, getFollowers);
 
 export const userRouter = router;

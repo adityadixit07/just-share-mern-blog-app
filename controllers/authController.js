@@ -379,11 +379,13 @@ export const updateAvatar = catchAsyncError(async (req, res, next) => {
 
 // get following list
 export const getFollowings = catchAsyncError(async (req, res, next) => {
+  const { userId } = req.params;
+  console.log(userId);
   if (req.body.userId === null) {
     return next(new ErrorHandler("Please login first", 400, false));
   }
   const followingList = await UserModel.findOne({
-    _id: req.body.userId,
+    _id: userId,
   }).select("following");
   const EachFollowingDetail = [];
   for (let i = 0; i < followingList.following.length; i++) {
@@ -406,11 +408,13 @@ export const getFollowings = catchAsyncError(async (req, res, next) => {
 });
 
 export const getFollowers = catchAsyncError(async (req, res, next) => {
+  const { userId } = req.params;
+  console.log(userId);
   if (req.body.UserId === null) {
     return next(new ErrorHandler("Please login first", 400, false));
   }
   const followersList = await UserModel.findOne({
-    _id: req.body.userId,
+    _id: userId,
   }).select("followers");
   const EachFollowersDetail = [];
   for (let i = 0; i < followersList.followers.length; i++) {
