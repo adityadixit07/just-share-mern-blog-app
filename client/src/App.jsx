@@ -17,6 +17,7 @@ import SinglePost from "./pages/post/SinglePost";
 import SeeProfile from "./compoents/profile/SeeProfile";
 import ViewPost from "./compoents/profile/ViewPost";
 import Loader from "./utils/Loader";
+import SchedulingForm from "./compoents/user/schedulePost/SchedulingForm";
 
 const App = () => {
   const { loading } = useSelector((state) => state.alerts);
@@ -60,6 +61,7 @@ const App = () => {
         <Route path="/user/post/:postId" element={<SinglePost />} />
         <Route path="/user/profile/:userId" element={<SeeProfile />} />
         <Route path="/user/profile/post/:postId" element={<ViewPost />} />
+        <Route path="/scheduling-form" element={<SchedulingForm />} />
       </Routes>
     </BrowserRouter>
   );

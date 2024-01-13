@@ -201,7 +201,7 @@ const RandomPosts = () => {
               className="w-full h-48 md:h-56 lg:h-64 object-cover rounded-md"
             />
             <span className="text-gray-500 text-sm font-semibold block">
-              Posted {calculateDaysAgo(post?.createdAt)}
+              Published {calculateDaysAgo(post?.createdAt)}
             </span>
           </div>
         ))}

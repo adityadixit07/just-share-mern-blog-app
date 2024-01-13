@@ -27,7 +27,6 @@ const Loader = () => {
         "Developers: Turning coffee into code.",
         "JavaScript is the closest thing to magic.",
         "Hack the planet!",
-        // Add more short quotes as needed
       ];
 
       const randomIndex = Math.floor(Math.random() * quotes.length);
@@ -39,8 +38,9 @@ const Loader = () => {
 
   useEffect(() => {
     getRandomQuote();
+    // cleanup function
     const loadingTimeout = setTimeout(() => {
-      console.log("Loading completed!");
+      // console.log("Loading completed!");
       dispatch(hideLoading());
     }, 5000);
 

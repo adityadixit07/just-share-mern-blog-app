@@ -126,9 +126,9 @@ export const getRandomPost = catchAsyncError(async (req, res, next) => {
     { $skip: parseInt(offset) },
     {
       $lookup: {
-        from: "users", // Replace with the name of your User collection
-        localField: "userId",
-        foreignField: "_id",
+        from: "users",
+        localField: "userId", // Field in the posts collection
+        foreignField: "_id", // Field in the users collection
         as: "creatorInfo",
       },
     },
@@ -150,7 +150,7 @@ export const getRandomPost = catchAsyncError(async (req, res, next) => {
 
 export const getUserPost = catchAsyncError(async (req, res, next) => {
   const { userId } = req.params; // Extracting userId from request parameters
-console.log(userId);
+  console.log(userId);
   if (!userId) {
     return next(new ErrorHandler("User ID is missing", 400, false));
   }

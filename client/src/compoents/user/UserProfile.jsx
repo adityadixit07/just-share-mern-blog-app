@@ -24,6 +24,7 @@ const UserProfile = () => {
   const [showFollowerModal, setShowFollowerModal] = useState(false);
   const [followers, setFollowers] = useState(false);
   const handleOpenFollowerModal = async () => {
+    dispatch(showLoading());
     try {
       const res = await fetchFollowersList(user?._id);
       // console.log(res, "followers list");
@@ -31,6 +32,8 @@ const UserProfile = () => {
       setShowFollowerModal(true);
     } catch (error) {
       toast.error(error.message);
+    } finally {
+      dispatch(hideLoading());
     }
   };
   const handleCloseModalFollower = () => {
@@ -40,6 +43,7 @@ const UserProfile = () => {
   const [showFollowingModal, setShowFollowingModal] = useState(false);
   const [following, setFollowing] = useState(false);
   const handleOpenFollowingModal = async () => {
+    dispatch(showLoading());
     try {
       const res = await fetchFollowingList(user?._id);
       // console.log(res, "following list");
@@ -47,6 +51,8 @@ const UserProfile = () => {
       setShowFollowingModal(true);
     } catch (error) {
       toast.error(error.message);
+    } finally {
+      dispatch(hideLoading());
     }
   };
   const handleCloseModalFollowing = () => {
@@ -174,7 +180,7 @@ const UserProfile = () => {
                   {user?.followers.length}
                 </p>
                 <p
-                  className="text-sm text-gray-600 font-semibold hover:text-gray-800"
+                  className="text-sm text-gray-600 font-semibold hover:text-gray-800 cursor-pointer"
                   onClick={handleOpenFollowerModal}
                 >
                   Followers
@@ -186,7 +192,7 @@ const UserProfile = () => {
                   {user?.following.length}
                 </p>
                 <p
-                  className="text-sm text-gray-600 font-semibold hover:text-gray-800"
+                  className="text-sm text-gray-600 font-semibold hover:text-gray-800 cursor-pointer"
                   onClick={handleOpenFollowingModal}
                 >
                   Following
