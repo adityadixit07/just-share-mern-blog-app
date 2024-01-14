@@ -19,7 +19,14 @@ const postSchema = new mongoose.Schema(
       default:
         "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSVO0mln2BFp7E2nA3-m1jb_z1Ttko5OAw-VXE1AHmB_A&s",
     },
-
+    scheduledDate: {
+      type: Date,
+      default: Date.now,
+    },
+    isPublished: {
+      type: Boolean,
+      default: false,
+    },
     likes: [
       {
         type: mongoose.Schema.Types.ObjectId,

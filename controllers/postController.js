@@ -172,3 +172,5 @@ export const getUserPost = catchAsyncError(async (req, res, next) => {
     return next(new ErrorHandler("Error fetching user posts", 500, false));
   }
 });
+
+
