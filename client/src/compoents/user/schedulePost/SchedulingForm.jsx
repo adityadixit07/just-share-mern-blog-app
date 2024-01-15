@@ -10,7 +10,27 @@ const SchedulingForm = () => {
   const handlePublish = async (e) => {
     e.preventDefault();
 
-    toast.success("Post scheduled successfully!");
+    try {
+      const response = await fetch('/api/schedulePost', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          content,
+          publishAt,
+        }),
+      });
+
+      if (response.ok) {
+        toast.success("Post scheduled successfully!");
+      } else {
+        toast.error("Failed to schedule post. Please try again.");
+      }
+    } catch (error) {
+      console.error("Error scheduling post:", error);
+      toast.error("An unexpected error occurred. Please try again later.");
+    }
   };
 
   return (
