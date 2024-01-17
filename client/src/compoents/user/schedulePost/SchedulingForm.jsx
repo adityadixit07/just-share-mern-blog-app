@@ -22,7 +22,7 @@ const SchedulingForm = () => {
         }),
       });
       const {data}=response;
-      if (dat?.status===200) {
+      if (data?.status===200) {
         toast.success("Post scheduled successfully!");
       } else {
         toast.error("Failed to schedule post. Please try again.");

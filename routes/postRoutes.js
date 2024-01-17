@@ -2,10 +2,12 @@ import express from "express";
 import {
   createPost,
   deletePost,
+  dislikePost,
   getAllPost,
   getRandomPost,
   getSinglePostInfo,
   getUserPost,
+  likePost,
   updatePost,
 } from "../controllers/postController.js";
 import Authenticate from "../Authenticate.js";
@@ -21,10 +23,14 @@ router.route("/get-post-by-id/:id").get(Authenticate, getSinglePostInfo);
 // to see the post of a general user
 router.route("/user-post/:id").get(getSinglePostInfo);
 
-
-router.route('/user-posts/:userId').get(getUserPost);
-
 // get random posts
 router.route("/random").get(getRandomPost);
+// view post of a user
+router.route("/user-posts/:userId").get(getUserPost);
+
+// like post
+router.route("/like-post/:postId").put(Authenticate, likePost);
+// dislikepost
+router.route("/dislike-post/:postId").put(Authenticate, dislikePost);
 
 export const postRouter = router;

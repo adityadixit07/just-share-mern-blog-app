@@ -65,7 +65,7 @@ export const loginUser = catchAsyncError(async (req, res, next) => {
 
   if (!isPasswordCorrect) {
     // res.status(400).json({ success: false, message: "Password Mismatch" });
-    return next(new ErrorHandler("Password Mismatch", 400, false));
+    return next(new ErrorHandler("Invalid credentials", 400, false));
   }
   // console.log(user._id);
   const token = generateToken({ id: user._id });

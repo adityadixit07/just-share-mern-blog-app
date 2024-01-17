@@ -173,4 +173,48 @@ export const getUserPost = catchAsyncError(async (req, res, next) => {
   }
 });
 
+// like the post
+export const likePost = catchAsyncError(async (req, res, next) => {
+  const post = await PostModel.findById({ _id: req.params.postId });
+  if (!post) {
+    return next(new ErrorHandler("Post not found", 404, false));
+  }
+  // check if user already liked the post
+  const isLiked = post.likes.includes(req.body.userId);
+  if (isLiked) {
+    return next(new ErrorHandler("You already liked this post", 400, false));
+  }
+  // now check kya user dislike kiya hai
+  const isDisliked = post.dislikes.includes(req.body.userId);
+  if (isDisliked) {
+    await post.updateOne({ $pull: { dislikes: req.body.userId } });
+  }
+  // now like the post
+  await post.updateOne({ $push: { likes: req.body.userId } });
+  await post.save();
+  res.status(200).json({ success: true, message: "Post liked successfully" });
+});
 
+//dislike the post
+export const dislikePost = catchAsyncError(async (req, res, next) => {
+  const post = await PostModel.findById({ _id: req.params.postId });
+  if (!post) {
+    return next(new ErrorHandler("Post not found", 404, false));
+  }
+  // check if user already liked the post or not done anyting yet
+  const isLiked = post.likes.includes(req.body.userId);
+  if (isLiked) {
+    await post.updateOne({ $pull: { likes: req.body.userId } });
+  }
+  //agar user dilike kar chuka hai toh fir se dislike na kare
+  const isDisliked = post.dislikes.includes(req.body.userId);
+  if (isDisliked) {
+    return next(new ErrorHandler("You already disliked this post", 400, false));
+  }
+  // now dislike the post
+  await post.updateOne({ $push: { dislikes: req.body.userId } });
+  await post.save();
+  res
+    .status(200)
+    .json({ success: true, message: "Post disliked successfully" });
+});
