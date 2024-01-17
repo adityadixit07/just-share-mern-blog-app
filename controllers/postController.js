@@ -227,9 +227,16 @@ export const addComment = catchAsyncError(async (req, res, next) => {
     return next(new ErrorHandler("Post not found", 404, false));
   }
   const { text } = req.body;
+  const userInfo = await UserModel.findById(req.body.userId).select(
+    "avatar name"
+  );
+  const userName = userInfo.name;
+  const userAvatar = userInfo.avatar.url;
   const comment = await CommentModel.create({
     text,
     userId: req.body.userId,
+    userAvatar,
+    userName,
   });
   await comment.save();
   post.comments.push(comment._id);

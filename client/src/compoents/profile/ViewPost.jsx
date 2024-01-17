@@ -356,14 +356,13 @@ const ViewPost = () => {
                 key={comment?._id}
                 className="flex items-center gap-2 bg-gray-100 p-2 rounded"
               >
-                {/* <img
+                <img
                   className="w-8 h-8 rounded-full"
-                  src={comment?.userId?.avatar.url}
+                  src={comment?.userAvatar}
                   alt=""
-                /> */}
-
+                />
                 <div>
-                  <p className="font-semibold">{comment?.userId?.name}</p>
+                  <p>{comment?.userName}</p>
                   <p>{comment?.text}</p>
                 </div>
               </div>
