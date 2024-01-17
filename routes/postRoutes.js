@@ -1,8 +1,10 @@
 import express from "express";
 import {
+  addComment,
   createPost,
   deletePost,
   dislikePost,
+  fetchCommentsOfAPost,
   getAllPost,
   getRandomPost,
   getSinglePostInfo,
@@ -32,5 +34,9 @@ router.route("/user-posts/:userId").get(getUserPost);
 router.route("/like-post/:postId").put(Authenticate, likePost);
 // dislikepost
 router.route("/dislike-post/:postId").put(Authenticate, dislikePost);
+// add comment on post
+router.route("/comment/:postId").post(Authenticate, addComment);
+// fetch comment of a post
+router.route('/fetch-comments/:postId').get(fetchCommentsOfAPost)
 
 export const postRouter = router;

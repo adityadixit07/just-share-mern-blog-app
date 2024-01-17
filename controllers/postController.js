@@ -1,5 +1,6 @@
 import { catchAsyncError } from "../midddlewares/catchAsyncError.js";
 import ErrorHandler from "../midddlewares/errorHandler.js";
+import { CommentModel } from "../models/postSchema/CommentModel.js";
 import { PostModel } from "../models/postSchema/PostModel.js";
 import { UserModel } from "../models/userSchema/UserModel.js";
 import getDataUri from "../utils/dataUri.js";
@@ -217,4 +218,44 @@ export const dislikePost = catchAsyncError(async (req, res, next) => {
   res
     .status(200)
     .json({ success: true, message: "Post disliked successfully" });
+});
+
+// add a comment feature on a post
+export const addComment = catchAsyncError(async (req, res, next) => {
+  const post = await PostModel.findById(req.params.postId);
+  if (!post) {
+    return next(new ErrorHandler("Post not found", 404, false));
+  }
+  const { text } = req.body;
+  const comment = await CommentModel.create({
+    text,
+    userId: req.body.userId,
+  });
+  await comment.save();
+  post.comments.push(comment._id);
+  await post.save();
+  res.status(201).json({
+    success: true,
+    message: "Comment added successfully",
+    data: comment,
+  });
+});
+
+// fetch comment of a post
+export const fetchCommentsOfAPost = catchAsyncError(async (req, res, next) => {
+  const post = await PostModel.findById(req.params.postId);
+  if (!post) {
+    return next(new ErrorHandler("Post not found", 404, false));
+  }
+  const comments = await CommentModel.find({ _id: post.comments }).sort({
+    createdAt: -1,
+  });
+  if (!comments) {
+    return next(new ErrorHandler("No comment found", 404, false));
+  }
+  res.status(200).json({
+    success: true,
+    message: "Comment fetched successfully",
+    data: comments,
+  });
 });
