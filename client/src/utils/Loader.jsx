@@ -48,9 +48,9 @@ const Loader = () => {
   }, [dispatch]);
 
   return (
-    <div className="fixed top-0 left-0 right-0 bottom-0 bg-gray-100 flex flex-col items-center justify-center z-50">
+    <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2  p-8 rounded-md flex flex-col items-center justify-center z-50">
       <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-blue-500 border-solid"></div>
-      <p className="mt-4 text-gray-800">{quote}</p>
+      {/* <p className="mt-4 text-gray-800">{quote}</p> */}
     </div>
   );
 };

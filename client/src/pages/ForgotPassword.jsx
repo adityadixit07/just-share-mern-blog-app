@@ -19,7 +19,7 @@ const ForgotPassword = () => {
           },
         }
       );
-      console.log(response?.data);
+    //   console.log(response?.data);
       toast.success(response?.data?.message);
       navigate("/login");
     } catch (error) {
