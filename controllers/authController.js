@@ -3,10 +3,11 @@ import { catchAsyncError } from "../midddlewares/catchAsyncError.js";
 import ErrorHandler from "../midddlewares/errorHandler.js";
 import { PostModel } from "../models/postSchema/PostModel.js";
 import { UserModel } from "../models/userSchema/UserModel.js";
-// import { UserModel } from "../models/userSchema/userModel.js";
 import bcrypt from "bcrypt";
+import crypto from "crypto";
 import getDataUri from "../utils/dataUri.js";
 import cloudinary from "cloudinary";
+import sendMail from "../utils/sendMail.js";
 
 export const registerUser = catchAsyncError(async (req, res, next) => {
   const { name, email, password } = req.body;
@@ -309,32 +310,82 @@ export const changePassword = catchAsyncError(async (req, res, next) => {
 });
 
 // send password reset link when user forget the password
-export const forgetPassword = catchAsyncError(async (req, res, next) => {
-  const { email } = req.body;
-  const user = await UserModel.findOne({ email });
-  if (!user) {
-    return next(new ErrorHandler("User does not exist", 400, false));
-  }
-  const resetToken = await user.generatePasswordResetToken();
-  await user.save();
-  const resetUrl = `http://localhost:3000/reset-password/${resetToken}`;
-  const message = `Your password reset token is as follow:\n\n${resetUrl}\n\nIf you have not requested this email, then ignore it.`;
+export const forgotPassword = catchAsyncError(async (req, res, next) => {
   try {
-    await sendEmail({
-      email: user.email,
-      subject: "Password Recovery",
-      message,
+    const { email } = req.body;
+    const user = await UserModel.findOne({ email });
+    if (!user) {
+      return next(new ErrorHandler("User not found", 404, false));
+    }
+    const resetToken = crypto.randomBytes(20).toString("hex");
+    // Save the reset token and expiration time in the user object
+    user.resetPasswordToken = resetToken;
+    user.resetPasswordExpires = Date.now() + 3600000; // Token valid for 1 hour
+    await user.save();
+    // reset password link
+    const resetPasswordLink = `${process.env.RESET_PASSWORD_CLIENT_URL}/reset-password/${resetToken}`;
+
+    // Send the reset password email
+    await sendMail({
+      recipientEmail: user.email,
+      recipientName: user.name,
+      resetPasswordLink,
     });
-    res.status(200).json({
+
+    // console.log(user.email, "email");
+    // console.log(user.name, "name");
+    // console.log(resetPasswordLink, "link");
+
+    return res.status(200).json({
       success: true,
-      message: `Email sent to ${user.email}`,
+      message: "Reset password email sent",
+      data: user,
     });
   } catch (error) {
+    return next(new ErrorHandler(error.message, 500, false));
+  }
+});
+
+// reset password
+export const resetPassoword = catchAsyncError(async (req, res, next) => {
+  try {
+    const { password } = req.body;
+    const token = req.params.token;
+    console.log(token, "token");
+    // verify the reset token
+    const user = await UserModel.findOne({
+      resetPasswordToken: token,
+      resetPasswordExpires: { $gt: Date.now() },
+    });
+
+    if (!user) {
+      return next(new ErrorHandler("Invalid or expired token", 400, false));
+    }
+    const hashedPassword = await bcrypt.hash(password, 10);
+    user.password = hashedPassword;
     user.resetPasswordToken = undefined;
     user.resetPasswordExpires = undefined;
     await user.save();
+
+    res
+      .status(200)
+      .json({ success: true, message: "Password reset successfully" });
+  } catch (error) {
     return next(new ErrorHandler(error.message, 500, false));
   }
+});
+
+// verify reset token
+export const verifyResetToken = catchAsyncError(async (req, res, next) => {
+  const token = req.params.token;
+  const user = await UserModel.findOne({
+    resetPasswordToken: token,
+    resetPasswordExpires: { $gt: Date.now() },
+  });
+  if (!user) {
+    return next(new ErrorHandler("Invalid or expired token", 400, false));
+  }
+  res.status(200).json({ success: true, message: "Token verified" });
 });
 
 export const getUserProfile = catchAsyncError(async (req, res, next) => {
@@ -434,3 +485,5 @@ export const getFollowers = catchAsyncError(async (req, res, next) => {
     data: EachFollowersDetail,
   });
 });
+
+// send email

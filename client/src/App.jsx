@@ -18,6 +18,8 @@ import SeeProfile from "./compoents/profile/SeeProfile";
 import ViewPost from "./compoents/profile/ViewPost";
 import Loader from "./utils/Loader";
 import SchedulingForm from "./compoents/user/schedulePost/SchedulingForm";
+import ForgotPassword from "./pages/ForgotPassword";
+import ResetPassword from "./pages/ResetPassword";
 
 const App = () => {
   const { loading } = useSelector((state) => state.alerts);
@@ -37,6 +39,9 @@ const App = () => {
         <Route path="/" element={<Home />} />
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path='/reset-password/:token' element={<ResetPassword/>}/>
+
 
         <Route
           path="/user"

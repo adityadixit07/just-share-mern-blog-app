@@ -4,6 +4,8 @@ import { loginUser } from "../redux/actions/userAction";
 import { hideLoading, showLoading } from "../redux/reducers/alertsSlice";
 import { useNavigate } from "react-router";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { Link } from "react-router-dom";
+import toast from "react-hot-toast";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -77,7 +79,7 @@ const Login = () => {
                 className="absolute inset-y-0 right-0 flex items-center px-2 focus:outline-none"
                 onClick={togglePasswordVisibility}
               >
-                {showPassword ? <FaEyeSlash />:<FaEye /> }
+                {showPassword ? <FaEyeSlash /> : <FaEye />}
               </button>
             </div>
           </div>
@@ -92,6 +94,15 @@ const Login = () => {
             </button>
           </div>
         </form>
+        {/* forget password */}
+        <div>
+          <Link
+            to={"/forgot-password"}
+            className="text-sm text-indigo-700 hover:text-indigo-500 underline"
+          >
+            Forgot your password?
+          </Link>
+        </div>
       </div>
     </div>
   );
