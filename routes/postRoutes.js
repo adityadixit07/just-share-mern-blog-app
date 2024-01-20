@@ -10,6 +10,7 @@ import {
   getSinglePostInfo,
   getUserPost,
   likePost,
+  schedulePost,
   updatePost,
 } from "../controllers/postController.js";
 import Authenticate from "../Authenticate.js";
@@ -38,5 +39,9 @@ router.route("/dislike-post/:postId").put(Authenticate, dislikePost);
 router.route("/comment/:postId").post(Authenticate, addComment);
 // fetch comment of a post
 router.route('/fetch-comments/:postId').get(fetchCommentsOfAPost)
+
+
+// schedule post route
+router.route("/schedule-post").post(Authenticate, schedulePost);
 
 export const postRouter = router;

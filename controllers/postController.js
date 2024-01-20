@@ -266,3 +266,25 @@ export const fetchCommentsOfAPost = catchAsyncError(async (req, res, next) => {
     data: comments,
   });
 });
+
+// schedule the post
+export const schedulePost = catchAsyncError(async (req, res, next) => {
+  // create a post and add one more field scheduledDate
+  const { title, description, imageUrl, scheduledDate } = req.body;
+  if (!title || !description || !imageUrl || !scheduledDate) {
+    return next(new ErrorHandler("Please fill all the fields", 400, false));
+  }
+  const scheduledPost = await PostModel.create({
+    title,
+    description,
+    imageUrl,
+    scheduledDate,
+    userId: req.body.userId,
+  });
+  await scheduledPost.save();
+  res.status(201).json({
+    success: true,
+    message: "Post scheduled successfully",
+    data: scheduledPost,
+  });
+});

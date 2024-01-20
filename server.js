@@ -7,8 +7,10 @@ import { userRouter } from "./routes/userRoutes.js";
 import { postRouter } from "./routes/postRoutes.js";
 import errorMiddleware from "./errorMiddleware.js";
 import cloudinary from "cloudinary";
+import cron from "node-cron";
 import path from "path";
 import { fileURLToPath } from "url";
+import { PostModel } from "./models/postSchema/PostModel.js";
 
 dotenv.config();
 
@@ -26,12 +28,26 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cors({ origin: "*", credentials: true }));
 app.use(morgan("dev"));
 
-
-
 // routes
 app.use("/api/user", userRouter);
 
 app.use("/api/post", postRouter);
+
+
+// schedule posts every minute cron job
+cron.schedule("* * * * *", async () => {
+  // Check and publish scheduled posts every minute
+  const postsToPublish = await PostModel.find({
+    scheduledAt: { $lte: new Date() },
+    published: false,
+  });
+
+  postsToPublish.forEach(async (post) => {
+    post.published = true;
+    await post.save();
+    console.log(`Post ${post._id} published.`);
+  });
+});
 
 // Serve static assets if in production
 if (process.env.NODE_ENV === "production") {
