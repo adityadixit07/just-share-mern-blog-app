@@ -39,11 +39,14 @@ const Navbar = () => {
           {user ? (
             <div className="hidden md:flex items-center space-x-4">
               {/* avatar */}
-              <img
-                src={user?.avatar?.url}
-                alt="avatar"
-                className="w-10 h-10 rounded-full object-cover"
-              />
+              <div className="relative">
+                <img
+                  src={user?.avatar?.url}
+                  alt="avatar"
+                  className="w-10 h-10 rounded-full object-cover"
+                />
+                <span className="absolute bottom-0 right-0 bg-green-500 rounded-full h-3 w-3 border border-white"></span>
+              </div>
 
               <Link to="/user" className="hover:text-gray-300 text-white">
                 {user?.name}
@@ -78,11 +81,14 @@ const Navbar = () => {
           <div className="md:hidden flex items-center gap-5">
             <button>
               {isOpen === false && user && (
-                <img
-                  src={user?.avatar?.url}
-                  alt="avatar"
-                  className="w-10 h-10 rounded-full object-cover"
-                />
+                <div className="relative">
+                  <img
+                    src={user?.avatar?.url}
+                    alt="avatar"
+                    className="w-10 h-10 rounded-full object-cover"
+                  />
+                  <span className="absolute bottom-0 right-0 bg-green-500 rounded-full h-3 w-3 border border-white"></span>
+                </div>
               )}
             </button>
             <button onClick={toggleNavbar}>
@@ -97,11 +103,15 @@ const Navbar = () => {
                 <>
                   <li>
                     <div className="flex justify-start items-center gap-6">
-                      <img
-                        src={user?.avatar?.url}
-                        alt="avatar"
-                        className="w-10 h-10 rounded-full object-cover"
-                      />
+                      <div className="relative">
+                        <img
+                          src={user?.avatar?.url}
+                          alt="avatar"
+                          className="w-10 h-10 rounded-full object-cover"
+                        />
+                        <span className="absolute bottom-0 right-0 bg-green-500 rounded-full h-3 w-3 border border-white"></span>
+                      </div>
+
                       <Link
                         to="/user"
                         className="hover:text-gray-300 text-white font-semibold text-xl"
@@ -139,6 +149,11 @@ const Navbar = () => {
                       <span>
                         <RiAddCircleLine size={20} className="text-green-400" />
                       </span>
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/explore">
+                      <span className="text-[15px] font-semibold">Explore</span>
                     </Link>
                   </li>
                 </>
