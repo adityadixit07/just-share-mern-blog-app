@@ -1,6 +1,3 @@
-Certainly! Here's a more professional and concise description for your blog web app project, emphasizing its MERN stack architecture, advanced features, and its purpose:
-
----
 
 **Project Title: Blog APP JustShare**
 
