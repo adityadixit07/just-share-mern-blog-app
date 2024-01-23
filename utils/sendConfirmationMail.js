@@ -11,11 +11,7 @@ const oAuth2Client = new google.auth.OAuth2(
 
 oAuth2Client.setCredentials({ refresh_token: process.env.REFRESH_TOKEN });
 
-const sendMail = async ({
-  recipientEmail,
-  recipientName,
-  resetPasswordLink,
-}) => {
+const sendConfirmationMail = async ({ recipientEmail, recipientName }) => {
   try {
     const accessToken = await oAuth2Client.getAccessToken();
     const transport = nodemailer.createTransport({
@@ -32,19 +28,31 @@ const sendMail = async ({
     const mailOptions = {
       from: "Aditya Dixit <adityadileepdixit@gmail.com>",
       to: recipientEmail,
-      subject: `Password Reset Instructions for ${recipientName}`,
+      subject: `Confirmation regarding the message you have sent`,
       html: `
-        <h2>Password Reset Instructions</h2>
-        <p>Hello ${recipientName},</p>
-        <p>We received a request to reset your password. Click the link below to reset your password:</p>
-        <a href="${resetPasswordLink}">Reset Password</a>
-        <p>If you did not initiate this request, please ignore this email.</p>
-        <p>Best regards,<br/>
-        Just Build 
-        </p>
+      <h2 style="color: #FF9933; font-size: 20px; text-align: center;">We Appreciate Your Message!</h2>
+
+      <p>Hello ${recipientName},</p>
+      
+      <p>We have received your message and appreciate your interest in interacting with us.</p>
+      
+      <p>Our team will review your message, and you can expect a response within the next 2-3 working days.</p>
+      
+      <p>Thank you for choosing JustShare!</p>
+      
+      <hr style="border: 1px solid #ddd; margin: 1em 0;" />
+      
+      <p>Best Regards,<br />
+      JustShare Team</p>
+      
+      <p>
+        <a href="https://just-share-app.onrender.com/" style="color: #3498db; text-decoration: none;">
+          Explore More
+        </a>
+      </p>
+      
       `,
     };
-    // console.log(recipientEmail)
     const result = await transport.sendMail(mailOptions);
 
     return result;
@@ -53,4 +61,4 @@ const sendMail = async ({
   }
 };
 
-export default sendMail;
+export default sendConfirmationMail;

@@ -1,7 +1,17 @@
 import React from "react";
 import Faq from "./Faq";
+import toast from "react-hot-toast";
 
 const ServicePage = () => {
+  const handleRunAdsRequest = () => {
+    toast.success("Currently, This feature is not available !");
+  };
+  const handleCustomizeProfile = () => {
+    toast.success("Currently, This feature is not available !");
+  };
+  const handleSellerBlogs = () => {
+    toast.success("Currently, This feature is not available !");
+  };
   return (
     <div className="bg-gray-100 min-h-screen mt-12">
       <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
@@ -17,8 +27,11 @@ const ServicePage = () => {
           {/* Service Cards */}
           {/* Service 1 */}
           <div className="bg-white overflow-hidden shadow rounded-lg">
-            <div className="px-4 py-5 sm:p-6">
-              <h3 className="text-lg font-semibold text-gray-900">
+            <div className="px-4 py-5 sm:p-6 cursor-pointer ">
+              <h3
+                onClick={handleRunAdsRequest}
+                className="text-lg font-semibold text-gray-900 hover:underline hover:text-green-600"
+              >
                 Run Ads on Request
               </h3>
               <p className="mt-2 text-sm text-gray-500">
@@ -30,8 +43,11 @@ const ServicePage = () => {
 
           {/* Service 2 */}
           <div className="bg-white overflow-hidden shadow rounded-lg">
-            <div className="px-4 py-5 sm:p-6">
-              <h3 className="text-lg font-semibold text-gray-900">
+            <div className="px-4 py-5 sm:p-6 cursor-pointer">
+              <h3
+                onClick={handleCustomizeProfile}
+                className="text-lg font-semibold text-gray-900 hover:underline hover:text-green-600"
+              >
                 Customize & Enhance Profile
               </h3>
               <p className="mt-2 text-sm text-gray-500">
@@ -43,8 +59,11 @@ const ServicePage = () => {
 
           {/* Service 3 */}
           <div className="bg-white overflow-hidden shadow rounded-lg">
-            <div className="px-4 py-5 sm:p-6">
-              <h3 className="text-lg font-semibold text-gray-900">
+            <div className="px-4 py-5 sm:p-6 cursor-pointer">
+              <h3
+                onClick={handleSellerBlogs}
+                className="text-lg font-semibold text-gray-900 hover:underline hover:text-green-600"
+              >
                 Become a Seller of Blogs
               </h3>
               <p className="mt-2 text-sm text-gray-500">

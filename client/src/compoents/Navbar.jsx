@@ -61,11 +61,17 @@ const Navbar = () => {
             </div>
           ) : (
             <div className="hidden md:flex items-center space-x-4">
+              <Link to="/explore" className="hover:text-gray-300">
+                Explore
+              </Link>{" "}
               <Link to="/login" className="hover:text-gray-300">
                 Login
               </Link>
               <Link to="/register" className="hover:text-gray-300">
                 Register
+              </Link>
+              <Link to="/contact" className="hover:text-gray-300">
+                Contact
               </Link>
             </div>
           )}
@@ -140,6 +146,15 @@ const Navbar = () => {
                 <>
                   <li>
                     <Link
+                      to="/explore"
+                      className="hover:text-gray-300"
+                      onClick={() => setIsOpen(false)}
+                    >
+                      Explore
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
                       to="/login"
                       className="hover:text-gray-300"
                       onClick={() => setIsOpen(false)}
@@ -154,6 +169,15 @@ const Navbar = () => {
                       onClick={() => setIsOpen(false)}
                     >
                       Register
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      to="/contact"
+                      className="hover:text-gray-300"
+                      onClick={() => setIsOpen(false)}
+                    >
+                      Contact
                     </Link>
                   </li>
                 </>

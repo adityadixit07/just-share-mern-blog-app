@@ -2,13 +2,10 @@ import React from "react";
 
 const About = () => {
   return (
-    <div className="bg-gray-100 min-h-screen">
+    // <div className="bg-gray-100 min-h-screen mt-[2rem]">
+    <div className="bg-gray-100 max-h-[80vh] mt-[2rem]">
       <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
         <div className="text-center">
-          {/* <h2 className="text-4xl font-extrabold text-gray-900 mb-4">
-            Welcome to Just{" "}
-            <span className="text-orange-400 border-b border-black">Share</span>
-          </h2> */}
           <h1 className="text-2xl font-semibold text-gray-800 mb-8">
             Discover our story and passion for sharing knowledge.
           </h1>

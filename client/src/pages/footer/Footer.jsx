@@ -3,35 +3,51 @@ import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
-    <footer className="bg-gray-800 text-white w-full">
-      <div className="mx-4">
-        <div className="flex md:flex-row justify-evenly">
-          <div className="mb-6 md:w-1/2 mt-3 m-auto">
-            <h2 className="text-xl font-bold mb-4">Quick Links</h2>
-            <ul className="space-y-2">
+    <footer className="bg-gray-800  text-white w-full pb-4">
+      <div className="">
+        <div className="flex justify-evenly pt-4">
+          <div className="left">
+            <h1 className="text-xl font-semibold text-orange-200 ">
+              Quick Links
+            </h1>
+            <ul className="flex gap-1 flex-col mt-2 mb-2">
               <li>
                 <Link to="/">Home</Link>
               </li>
+
               <li>
                 <Link to="/about">About</Link>
               </li>
               <li>
-                <Link to="/services">Services</Link>
+                <Link to="/contact">Contact</Link>
               </li>
               <li>
-                <Link to="/contact">Contact</Link>
+                <Link to="/explore">Explore</Link>
               </li>
             </ul>
           </div>
-          <div className="mb-6 md:w-1/2 mt-3">
-            <h2 className="text-xl font-bold mb-4">Contact Us</h2>
-            <p>123 Street Name</p>
-            <p>City, Country</p>
-            <p>Email: info@example.com</p>
-            <p>Phone: +1234567890</p>
+          <div className="right">
+            <h1 className="text-xl font-semibold text-orange-200 mb-2">
+              Address
+            </h1>
+            <p>Kanpur, India</p>
+            <p>Email: adityadixit7054@gmail.com</p>
+            <p>Phone:+91 7054293380</p>
           </div>
         </div>
       </div>
+      <p className="text-center">
+        Made by{" "}
+        <span className="font-semibold">
+          <Link
+            to="https://www.linkedin.com/in/adityakumardixit/"
+            target="_blank"
+          >
+            Aditya Kumar Dixit
+          </Link>{" "}
+        </span>
+        😎{" "}
+      </p>
     </footer>
   );
 };

@@ -20,6 +20,7 @@ import Loader from "./utils/Loader";
 import SchedulingForm from "./compoents/user/schedulePost/SchedulingForm";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
+import RandomPosts from "./compoents/otherUser/RandomPosts";
 
 const App = () => {
   const { loading } = useSelector((state) => state.alerts);
@@ -55,6 +56,7 @@ const App = () => {
         <Route path="/services" element={<ServicePage />} />
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
+        <Route path="/explore" element={<RandomPosts />} />
         <Route
           path="/form"
           element={

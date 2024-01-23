@@ -317,11 +317,11 @@ export const forgotPassword = catchAsyncError(async (req, res, next) => {
     if (!user) {
       return next(new ErrorHandler("User not found", 404, false));
     }
-    const resetToken =await user.generatePasswordResetToken();
+    const resetToken = await user.generatePasswordResetToken();
     await user.save();
     // reset password link
     const resetPasswordLink = `${process.env.RESET_PASSWORD_CLIENT_URL}/reset-password/${resetToken}`;
-    console.log(resetPasswordLink, "reset link")
+    console.log(resetPasswordLink, "reset link");
     await sendMail({
       recipientEmail: user.email,
       recipientName: user.name,
@@ -376,14 +376,6 @@ export const verifyResetToken = catchAsyncError(async (req, res, next) => {
   }
   res.status(200).json({ success: true, message: "Token verified" });
 });
-
-
-
-
-
-
-
-
 
 export const getUserProfile = catchAsyncError(async (req, res, next) => {
   const { userId } = req.params;

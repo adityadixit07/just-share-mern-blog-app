@@ -11,6 +11,7 @@ import cron from "node-cron";
 import path from "path";
 import { fileURLToPath } from "url";
 import { PostModel } from "./models/postSchema/PostModel.js";
+import { receiveMessageRouter } from "./routes/receiveMessageRoute.js";
 
 dotenv.config();
 
@@ -33,6 +34,7 @@ app.use("/api/user", userRouter);
 
 app.use("/api/post", postRouter);
 
+app.use("/api/contact", receiveMessageRouter);
 
 // schedule posts every minute cron job
 cron.schedule("* * * * *", async () => {

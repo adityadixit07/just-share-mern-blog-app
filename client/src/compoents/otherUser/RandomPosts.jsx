@@ -12,6 +12,7 @@ import {
   updateFollowersList,
 } from "../../redux/reducers/otherProfileReducer";
 import { Link } from "react-router-dom";
+import Loader from "../../utils/Loader";
 
 const calculateDaysAgo = (createdAt) => {
   const today = new Date();
@@ -31,7 +32,7 @@ const RandomPosts = () => {
   const { randomPosts } = useSelector((state) => state.allUsers);
   const [scrollPosition, setScrollPosition] = useState(0);
   const { user } = useSelector((state) => state.auth);
-
+  const { loading } = useSelector((state) => state.alerts);
   const handleFollow = async (followUserId) => {
     try {
       const loggedInuserid = user?._id;
@@ -161,10 +162,12 @@ const RandomPosts = () => {
     //   </div>
     // </div>
     // <div className="min-h-screen mx-4">
-    <div className="min-h-screen mx-auto px-4 sm:px-8 md:px-16 lg:px-20 xl:px-32">
+
+    <div className="min-h-screen mx-auto px-4 sm:px-8 md:px-16 lg:px-20 xl:px-32 mt-[5rem]">
       <h1 className="text-3xl font-bold my-4 text-center text-gray-600">
         Explore Amazing Content
       </h1>
+      {loading && <Loader />}
       {/* <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"> */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 pt-10">
         {randomPosts?.map((post) => (

@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import About from "../about/About";
-import RandomPosts from "../../compoents/otherUser/RandomPosts";
+import Footer from "../footer/Footer";
+import ServicePage from "../../compoents/service/ServicePage";
 
 const Home = () => {
   const token = localStorage.getItem("token");
@@ -53,8 +54,8 @@ const Home = () => {
       </main>
 
       <About />
-
-      <RandomPosts />
+      <ServicePage />
+      <Footer />
     </div>
   );
 };
