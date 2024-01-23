@@ -317,25 +317,16 @@ export const forgotPassword = catchAsyncError(async (req, res, next) => {
     if (!user) {
       return next(new ErrorHandler("User not found", 404, false));
     }
-    const resetToken = crypto.randomBytes(20).toString("hex");
-    // Save the reset token and expiration time in the user object
-    user.resetPasswordToken = resetToken;
-    user.resetPasswordExpires = Date.now() + 3600000; // Token valid for 1 hour
+    const resetToken =await user.generatePasswordResetToken();
     await user.save();
     // reset password link
     const resetPasswordLink = `${process.env.RESET_PASSWORD_CLIENT_URL}/reset-password/${resetToken}`;
-
-    // Send the reset password email
+    console.log(resetPasswordLink, "reset link")
     await sendMail({
       recipientEmail: user.email,
       recipientName: user.name,
       resetPasswordLink,
     });
-
-    // console.log(user.email, "email");
-    // console.log(user.name, "name");
-    // console.log(resetPasswordLink, "link");
-
     return res.status(200).json({
       success: true,
       message: "Reset password email sent",
@@ -351,8 +342,6 @@ export const resetPassoword = catchAsyncError(async (req, res, next) => {
   try {
     const { password } = req.body;
     const token = req.params.token;
-    console.log(token, "token");
-    // verify the reset token
     const user = await UserModel.findOne({
       resetPasswordToken: token,
       resetPasswordExpires: { $gt: Date.now() },
@@ -387,6 +376,14 @@ export const verifyResetToken = catchAsyncError(async (req, res, next) => {
   }
   res.status(200).json({ success: true, message: "Token verified" });
 });
+
+
+
+
+
+
+
+
 
 export const getUserProfile = catchAsyncError(async (req, res, next) => {
   const { userId } = req.params;

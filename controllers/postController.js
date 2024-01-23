@@ -267,6 +267,7 @@ export const fetchCommentsOfAPost = catchAsyncError(async (req, res, next) => {
   });
 });
 
+
 // schedule the post
 export const schedulePost = catchAsyncError(async (req, res, next) => {
   // create a post and add one more field scheduledDate
