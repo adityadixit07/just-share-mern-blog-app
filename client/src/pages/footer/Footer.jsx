@@ -42,6 +42,7 @@ const Footer = () => {
           <Link
             to="https://www.linkedin.com/in/adityakumardixit/"
             target="_blank"
+            className="text-orange-300 hover:text-orange-400 underline"
           >
             Aditya Kumar Dixit
           </Link>{" "}

@@ -19,4 +19,9 @@ const contactSchema = new mongoose.Schema({
   },
 });
 
+contactSchema.index(
+  { createdAt: 1 },
+  { expireAfterSeconds: 3 * 24 * 60 * 60 * 60 }
+);
+
 export const ContactModel = mongoose.model("Contact", contactSchema);

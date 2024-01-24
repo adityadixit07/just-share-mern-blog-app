@@ -30,7 +30,7 @@ const ServicePage = () => {
             <div className="px-4 py-5 sm:p-6 cursor-pointer ">
               <h3
                 onClick={handleRunAdsRequest}
-                className="text-lg font-semibold text-gray-900 hover:underline hover:text-green-600"
+                className="underline text-lg font-semibold text-gray-900 hover:underline hover:text-green-600"
               >
                 Run Ads on Request
               </h3>
@@ -46,7 +46,7 @@ const ServicePage = () => {
             <div className="px-4 py-5 sm:p-6 cursor-pointer">
               <h3
                 onClick={handleCustomizeProfile}
-                className="text-lg font-semibold text-gray-900 hover:underline hover:text-green-600"
+                className="underline text-lg font-semibold text-gray-900 hover:underline hover:text-green-600"
               >
                 Customize & Enhance Profile
               </h3>
@@ -62,7 +62,7 @@ const ServicePage = () => {
             <div className="px-4 py-5 sm:p-6 cursor-pointer">
               <h3
                 onClick={handleSellerBlogs}
-                className="text-lg font-semibold text-gray-900 hover:underline hover:text-green-600"
+                className="underline text-lg font-semibold text-gray-900 hover:underline hover:text-green-600"
               >
                 Become a Seller of Blogs
               </h3>
