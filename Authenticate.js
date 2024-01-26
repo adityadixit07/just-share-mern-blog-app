@@ -1,29 +1,5 @@
 import jwt from "jsonwebtoken";
 
-// const Authenticate = async (req, res, next) => {
-//   const authHeader = req.headers["authorization"];
-//   const token = authHeader && authHeader.split(" ")[1];
-//   console.log(token);
-//   if (!token) {
-//     return res
-//       .status(401)
-//       .json({ success: false, message: "Unauthorized, Token is missing" });
-//   }
-
-//   jwt.verify(token, process.env.JWT_SECRET_KEY, (err, decoded) => {
-//     if (err) {
-//       return res
-//         .status(403)
-//         .json({ success: false, message: "Token verification failed" });
-//     }
-//     req.user = decoded;
-//     console.log(decoded, "->decoded user id");
-//     next();
-//   });
-// };
-
-// export default Authenticate;
-
 const Authenticate = async (req, res, next) => {
   try {
     const token = req.headers["authorization"].split(" ")[1];

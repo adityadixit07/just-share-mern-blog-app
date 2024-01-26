@@ -94,7 +94,6 @@ const RandomPosts = () => {
   }, [bottomBoundaryRef]);
 
   useEffect(() => {
-    // Fetch initial posts when the component mounts
     if (!randomPosts?.length) {
       dispatch(getRandomPosts({ offset: 0, limit: 10 }));
     }
@@ -182,7 +181,7 @@ const RandomPosts = () => {
                   alt=""
                   className="w-10 h-10 rounded-full object-cover"
                 />
-                <h2 className="text-lg font-semibold">{post?.creatorName}</h2>
+                <h2 className="text-lg font-semibold underline">{post?.creatorName}</h2>
               </Link>
               <button
                 onClick={() =>
@@ -197,6 +196,8 @@ const RandomPosts = () => {
                   : "Follow"}
               </button>
             </div>
+            <Link to={`/user/post/${post._id}`}>
+           
             <h3 className="text-xl font-semibold mb-2">{post.title}</h3>
             <img
               src={post.imageUrl}
@@ -206,6 +207,7 @@ const RandomPosts = () => {
             <span className="text-gray-500 text-sm font-semibold block">
               Published {calculateDaysAgo(post?.createdAt)}
             </span>
+            </Link>
           </div>
         ))}
       </div>
