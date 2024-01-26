@@ -216,17 +216,18 @@ import { Link, useNavigate } from "react-router-dom";
 import { logoutUser } from "../redux/reducers/userReducer";
 import toast from "react-hot-toast";
 import { RiLogoutCircleLine, RiAddCircleLine } from "react-icons/ri";
+import API from "../utils/API";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const { user } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const toggleNavbar = () => {
     setIsOpen(!isOpen);
   };
-
-  const { user } = useSelector((state) => state.auth);
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   const handleLogout = () => {
     dispatch(logoutUser());
@@ -235,6 +236,20 @@ const Navbar = () => {
     navigate("/login");
   };
 
+  const handleSearch = async() => {
+    try{
+      const response=await API.get('/search-post/:title');
+    }
+    catch(error){
+      toast.error(error?.response?.data?.message)
+    }
+    toast.success("searching......");
+  };
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter") {
+      handleSearch();
+    }
+  };
   return (
     <nav className="bg-gray-800 text-white fixed top-0 w-full z-10">
       <div className="max-w-7xl mx-auto px-4">
@@ -245,6 +260,17 @@ const Navbar = () => {
                 Just <span className="text-orange-400">Share</span>
               </h1>
             </Link>
+          </div>
+
+          <div className="hidden md:flex items-center">
+            <input
+              type="text"
+              placeholder="Search any post..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              onKeyPress={handleKeyPress}
+              className="bg-gray-700 text-white px-4 py-2 rounded-md focus:outline-none"
+            />
           </div>
 
           <div className="hidden md:flex items-center space-x-4">

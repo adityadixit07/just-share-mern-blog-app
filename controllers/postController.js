@@ -291,19 +291,7 @@ export const schedulePost = catchAsyncError(async (req, res, next) => {
 
 // search post by title
 export const searchPostByTitle = catchAsyncError(async (req, res, next) => {
-  const { title } = req.body;
-  if (!title) {
-    return next(new ErrorHandler("Please enter the title", 400, false));
-  }
-  const posts = await PostModel.find({
-    title: { $regex: title, $options: "i" },
-  });
-  if (!posts) {
-    return next(new ErrorHandler("No post found", 404, false));
-  }
-  res.status(200).json({
-    success: true,
-    message: "Post fetched successfully",
-    data: posts,
-  });
+
+    const { title } = req.params;
+    const fetchedPosts=await PostModel.f
 });

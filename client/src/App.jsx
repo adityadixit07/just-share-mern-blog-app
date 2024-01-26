@@ -21,6 +21,7 @@ import SchedulingForm from "./compoents/user/schedulePost/SchedulingForm";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
 import RandomPosts from "./compoents/otherUser/RandomPosts";
+import SchedulePost from "./pages/post/SchedulePost";
 
 const App = () => {
   const { loading } = useSelector((state) => state.alerts);
@@ -41,8 +42,7 @@ const App = () => {
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
-        <Route path='/reset-password/:token' element={<ResetPassword/>}/>
-
+        <Route path="/reset-password/:token" element={<ResetPassword />} />
 
         <Route
           path="/user"
@@ -62,6 +62,14 @@ const App = () => {
           element={
             <ProtectedRoute>
               <PostForm />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/schedule-post"
+          element={
+            <ProtectedRoute>
+              <SchedulePost />
             </ProtectedRoute>
           }
         />
