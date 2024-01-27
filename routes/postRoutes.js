@@ -11,7 +11,6 @@ import {
   getUserPost,
   likePost,
   schedulePost,
-  searchPostByTitle,
   updatePost,
 } from "../controllers/postController.js";
 import Authenticate from "../Authenticate.js";
@@ -44,7 +43,5 @@ router.route("/fetch-comments/:postId").get(fetchCommentsOfAPost);
 // schedule post route
 router.route("/schedule-post").post(Authenticate, schedulePost);
 
-// seach post by title
-router.route("/search-post/:title").get(searchPostByTitle);
 
 export const postRouter = router;

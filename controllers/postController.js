@@ -269,9 +269,9 @@ export const fetchCommentsOfAPost = catchAsyncError(async (req, res, next) => {
 
 // schedule the post
 export const schedulePost = catchAsyncError(async (req, res, next) => {
-  // create a post and add one more field scheduledDate
-  const { title, description, imageUrl, scheduledDate } = req.body;
-  if (!title || !description || !imageUrl || !scheduledDate) {
+  const { title, description, imageUrl, scheduledDate, scheduledTime } =
+    req.body;
+  if (!title || !description || !imageUrl || !scheduledDate || !scheduledTime) {
     return next(new ErrorHandler("Please fill all the fields", 400, false));
   }
   const scheduledPost = await PostModel.create({
@@ -279,19 +279,14 @@ export const schedulePost = catchAsyncError(async (req, res, next) => {
     description,
     imageUrl,
     scheduledDate,
+    scheduledTime,
     userId: req.body.userId,
   });
   await scheduledPost.save();
   res.status(201).json({
     success: true,
-    message: "Post scheduled successfully",
+    message: "Post scheduled successfully and will be published soon",
     data: scheduledPost,
   });
 });
 
-// search post by title
-export const searchPostByTitle = catchAsyncError(async (req, res, next) => {
-
-    const { title } = req.params;
-    const fetchedPosts=await PostModel.f
-});

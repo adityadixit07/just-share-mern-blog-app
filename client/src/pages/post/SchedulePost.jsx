@@ -1,18 +1,41 @@
 import React, { useState } from "react";
+import toast from "react-hot-toast";
+import API from "../../utils/API";
+import { hideLoading, showLoading } from "../../redux/reducers/alertsSlice";
+import { useDispatch } from "react-redux";
 
 const SchedulePost = () => {
   const [title, setTitle] = useState("");
-  const [postContent, setPostContent] = useState("");
+  const [description, setDescription] = useState("");
   const [scheduleDate, setScheduleDate] = useState("");
   const [scheduleTime, setScheduleTime] = useState("");
+  const [imageUrl, setImageUrl] = useState("");
+  const dispatch = useDispatch();
 
-  const handleSchedulePost = () => {
-    // Implement your logic to schedule the post
-    console.log("Post scheduled:", {
-      postContent,
-      scheduleDate,
-      scheduleTime,
-    });
+  const handleSchedulePost = async () => {
+    dispatch(showLoading());
+    try {
+      const response = await API.post("/post/schedule-post", {
+        title,
+        description,
+        scheduleDate,
+        scheduleTime,
+      });
+      const { data } = response;
+      console.log(data)
+      if (data?.success) {
+        toast.success(data?.message);
+        setTitle("");
+        setDescription("");
+        setScheduleDate("");
+        setScheduleTime("");
+        setImageUrl("");
+      }
+    } catch (error) {
+      toast.error(error?.response?.data?.message || "Something went wrong!");
+    } finally {
+      dispatch(hideLoading());
+    }
   };
 
   return (
@@ -34,6 +57,16 @@ const SchedulePost = () => {
           onChange={(e) => setTitle(e.target.value)}
           className="border-2 rounded-md w-full rounded-md px-4 py-2 focus:outline-none"
         />
+        <label>Image Url</label>
+        <input
+          type="text"
+          name="imaegUrl"
+          value={imageUrl}
+          placeholder="Enter image url"
+          onChange={(e) => setImageUrl(e.target.value)}
+          className="border-2 rounded-md w-full rounded-md px-4 py-2 focus:outline-none"
+        />
+
         <label
           htmlFor="postContent"
           className="block text-sm font-medium text-gray-600"
@@ -44,8 +77,8 @@ const SchedulePost = () => {
           id="postContent"
           name="postContent"
           rows="4"
-          value={postContent}
-          onChange={(e) => setPostContent(e.target.value)}
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
           className="mt-1 p-2 block w-full border rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
           placeholder="Write more about the topic...."
         ></textarea>

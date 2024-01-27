@@ -24,7 +24,8 @@
     "react-router-dom": "^6.21.1",
     "react-toastify": "^9.1.3",
     "react-typewriter-effect": "^1.1.0",
-    "redux": "^5.0.1"
+    "redux": "^5.0.1",
+    "redux-persist": "^6.0.0"
   },
   "devDependencies": {
     "@types/react": "^18.2.43",

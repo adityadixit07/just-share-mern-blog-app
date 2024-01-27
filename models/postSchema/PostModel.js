@@ -23,6 +23,10 @@ const postSchema = new mongoose.Schema(
       type: Date,
       default: Date.now,
     },
+    scheduledTime: {
+      type: String,
+      default: Date.now,
+    },
     published: {
       type: Boolean,
       default: false,
