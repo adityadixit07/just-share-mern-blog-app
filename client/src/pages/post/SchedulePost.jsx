@@ -3,12 +3,13 @@ import toast from "react-hot-toast";
 import API from "../../utils/API";
 import { hideLoading, showLoading } from "../../redux/reducers/alertsSlice";
 import { useDispatch } from "react-redux";
+import { addPostToUser } from "../../redux/reducers/userReducer";
 
 const SchedulePost = () => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [scheduleDate, setScheduleDate] = useState("");
-  const [scheduleTime, setScheduleTime] = useState("");
+  const [scheduledDate, setScheduledDate] = useState("");
+  const [scheduledTime, setScheduledTime] = useState("");
   const [imageUrl, setImageUrl] = useState("");
   const dispatch = useDispatch();
 
@@ -18,17 +19,19 @@ const SchedulePost = () => {
       const response = await API.post("/post/schedule-post", {
         title,
         description,
-        scheduleDate,
-        scheduleTime,
+        scheduledDate,
+        scheduledTime,
+        imageUrl,
       });
       const { data } = response;
-      console.log(data)
+      console.log(data?.data?._id);
       if (data?.success) {
+        dispatch(addPostToUser(data?.data?._id));
         toast.success(data?.message);
         setTitle("");
         setDescription("");
-        setScheduleDate("");
-        setScheduleTime("");
+        setScheduledDate("");
+        setScheduledTime("");
         setImageUrl("");
       }
     } catch (error) {
@@ -94,9 +97,9 @@ const SchedulePost = () => {
         <input
           type="date"
           id="scheduleDate"
-          name="scheduleDate"
-          value={scheduleDate}
-          onChange={(e) => setScheduleDate(e.target.value)}
+          name="scheduledDate"
+          value={scheduledDate}
+          onChange={(e) => setScheduledDate(e.target.value)}
           className="mt-1 p-2 block w-full border rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
         />
       </div>
@@ -111,9 +114,9 @@ const SchedulePost = () => {
         <input
           type="time"
           id="scheduleTime"
-          name="scheduleTime"
-          value={scheduleTime}
-          onChange={(e) => setScheduleTime(e.target.value)}
+          name="scheduledTime"
+          value={scheduledTime}
+          onChange={(e) => setScheduledTime(e.target.value)}
           className="mt-1 p-2 block w-full border rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
         />
       </div>

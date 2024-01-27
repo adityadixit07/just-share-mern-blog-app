@@ -123,6 +123,20 @@ export const getRandomPost = catchAsyncError(async (req, res, next) => {
     return next(new ErrorHandler("Limit must be greater than 0", 400, false));
   }
   const randomPosts = await PostModel.aggregate([
+    // {
+    //   $match: {
+    //     $or: [
+    //       { scheduledDate: { $gte: new Date() } },
+    //       {
+    //         $and: [
+    //           { scheduledDate: { $eq: new Date() } },
+    //           { scheduledTime: { $gt: getCurrentTimeString() } },
+    //         ],
+    //       },
+    //       { published: true },
+    //     ],
+    //   },
+    // }, // Match only published posts
     { $sample: { size: parseInt(limit) + parseInt(offset) } },
     { $skip: parseInt(offset) },
     {
@@ -290,3 +304,21 @@ export const schedulePost = catchAsyncError(async (req, res, next) => {
   });
 });
 
+// seach post by title
+export const searchPostByTitle = catchAsyncError(async (req, res, next) => {
+  const { title } = req.query;
+  if (!title) {
+    return next(new ErrorHandler("Please enter title", 400, false));
+  }
+  const posts = await PostModel.find({
+    title: { $regex: title, $options: "i" },
+  });
+  if (!posts) {
+    return next(new ErrorHandler("No post found", 404, false));
+  }
+  res.status(200).json({
+    success: true,
+    message: "Post fetched successfully",
+    data: posts,
+  });
+});

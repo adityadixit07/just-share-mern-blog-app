@@ -11,7 +11,7 @@ const Home = () => {
         <div>
           <h1 className="text-4xl font-bold text-gray-800 ml-3">
             Welcome to Just{" "}
-            <span className="text-orange-400 border-b border-black">Share</span>
+            <span className="text-orange-400 border-b border-black" >Share</span>
           </h1>
           <div>
             <Typewriter
