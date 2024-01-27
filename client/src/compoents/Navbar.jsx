@@ -209,7 +209,7 @@
 
 // export default Navbar;
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaBars, FaTimes } from "react-icons/fa";
 import { useSelector, useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
@@ -217,6 +217,7 @@ import { logoutUser } from "../redux/reducers/userReducer";
 import toast from "react-hot-toast";
 import { RiLogoutCircleLine, RiAddCircleLine } from "react-icons/ri";
 import API from "../utils/API";
+import { hideLoading, showLoading } from "../redux/reducers/alertsSlice";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -224,6 +225,7 @@ const Navbar = () => {
   const { user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [searchResult, setSearchResult] = useState([]);
 
   const toggleNavbar = () => {
     setIsOpen(!isOpen);
@@ -236,20 +238,37 @@ const Navbar = () => {
     navigate("/login");
   };
 
-  const handleSearch = async() => {
-    try{
-      const response=await API.get('/search-post/:title');
+  const handleSearch = async () => {
+    dispatch(showLoading());
+    try {
+      const response = await API.get(`/post/search/${searchQuery}`);
+      setSearchResult(response.data);
+    } catch (error) {
+      console.log(error?.response?.data?.message);
+      toast.error(error?.response?.data?.message);
+    } finally {
+      dispatch(hideLoading());
     }
-    catch(error){
-      toast.error(error?.response?.data?.message)
-    }
-    toast.success("searching......");
   };
   const handleKeyPress = (e) => {
     if (e.key === "Enter") {
       handleSearch();
     }
   };
+  useEffect(() => {
+    // this is for clearing the search result when user clear the search input
+    if (searchQuery === "") {
+      setSearchResult([]);
+    }
+    const timeoutId = setTimeout(() => {
+      handleSearch();
+    }, 3000);
+
+    // Cleanup function to clear the timeout
+    return () => clearTimeout(timeoutId);
+  }, [searchQuery]);
+
+  // console.log(searchResult);
   return (
     <nav className="bg-gray-800 text-white fixed top-0 w-full z-10">
       <div className="max-w-7xl mx-auto px-4">

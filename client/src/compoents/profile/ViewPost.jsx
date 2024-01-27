@@ -203,7 +203,6 @@ const ViewPost = () => {
   const [commentText, setCommentText] = useState(""); // Comment text
   const { postId } = useParams();
   const dispatch = useDispatch();
-
   const getPost = async () => {
     dispatch(showLoading());
     try {

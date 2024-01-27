@@ -306,13 +306,16 @@ export const schedulePost = catchAsyncError(async (req, res, next) => {
 
 // seach post by title
 export const searchPostByTitle = catchAsyncError(async (req, res, next) => {
-  const { title } = req.query;
+  const { title } = req.params;
+  // console.log(title,'title');
   if (!title) {
     return next(new ErrorHandler("Please enter title", 400, false));
   }
   const posts = await PostModel.find({
     title: { $regex: title, $options: "i" },
-  });
+  })
+    .sort({ createdAt: -1 })
+    .limit(10);
   if (!posts) {
     return next(new ErrorHandler("No post found", 404, false));
   }

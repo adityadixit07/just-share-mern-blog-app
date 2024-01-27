@@ -83,7 +83,12 @@ export const loginUser = catchAsyncError(async (req, res, next) => {
 // update name, email, password of the logged in user
 export const updateProfile = catchAsyncError(async (req, res, next) => {
   const { name, email } = req.body;
-  // const file=req.file;
+  if (name && name.length < 3) {
+    return next(new ErrorHandler("Name must be at least 3 characters", 400));
+  }
+  if (email && email.length < 6 && !email.includes("@")) {
+    return next(new ErrorHandler("Email must be at least 6 characters", 400));
+  }
   const user = await UserModel.findOne({ _id: req.body.userId });
   if (!user) {
     return next(new ErrorHandler("User not found", 404, false));
@@ -476,3 +481,32 @@ export const getFollowers = catchAsyncError(async (req, res, next) => {
 });
 
 // send email
+
+// delete the account
+export const deleteAccount = catchAsyncError(async (req, res, next) => {
+  try {
+    const user = await UserModel.findOne({ _id: req.body.userId });
+    if (!user) {
+      return next(new ErrorHandler("User not found", 404, false));
+    }
+
+    // Delete related posts
+    await PostModel.deleteOne({ userId: user._id });
+
+    // Remove the user from others' followers and following lists
+    await UserModel.updateMany(
+      { $or: [{ followers: user._id }, { following: user._id }] },
+      { $pull: { followers: user._id, following: user._id } }
+    );
+
+    // Delete the user
+    await UserModel.deleteOne({ _id: user._id });
+
+    return res.status(200).json({
+      success: true,
+      message: "Your account deleted successfully",
+    });
+  } catch (error) {
+    next(error);
+  }
+});

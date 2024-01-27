@@ -6,6 +6,7 @@ import { hideLoading, showLoading } from "../../redux/reducers/alertsSlice";
 import { Link, useNavigate } from "react-router-dom";
 import { RiDeleteBinLine, RiEdit2Fill } from "react-icons/ri";
 import {
+  logoutUser,
   updatePostLength,
   updateUserProfile,
 } from "../../redux/reducers/userReducer";
@@ -134,6 +135,23 @@ const UserProfile = () => {
     toast.error("Feature is under development. Sorry for inconvenience");
   };
 
+  // handle delete
+  const handleDeleteAccount = async () => {
+    dispatch(showLoading());
+    try {
+      const response = await API.delete(`/user/delete-account/${user?._id}`);
+      if(response?.data?.success){
+        toast.success(response?.data?.message);
+        dispatch(logoutUser());
+        navigate('/')
+      }
+    } catch (error) {
+      toast.error(error?.response?.data?.message);
+    } finally {
+      dispatch(hideLoading());
+    }
+  };
+
   useEffect(() => {
     getAllPosts();
   }, [user]);
@@ -203,6 +221,9 @@ const UserProfile = () => {
                 <p className="text-sm text-gray-600 font-semibold hover:text-gray-800">
                   Posts
                 </p>
+              </div>
+              <div>
+                <button onClick={handleDeleteAccount}> delete account</button>
               </div>
             </div>
           </div>

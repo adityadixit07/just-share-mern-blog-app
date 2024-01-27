@@ -47,7 +47,7 @@ export const registerUser = createAsyncThunk(
       return data;
     } catch (error) {
       if (error?.response && error?.response?.data?.message) {
-        toast.error(error.response.data.message)
+        toast.error(error.response.data.message);
         return rejectWithValue(error.response.data.message);
       } else {
         return rejectWithValue(error.message);
@@ -71,11 +71,11 @@ export const loginUser = createAsyncThunk(
       return data;
     } catch (error) {
       if (error?.response && error?.response?.data?.message) {
-        console.log("Response error:", error?.response);
+        // console.log("Response error:", error?.response);
         toast.error(error?.response?.data?.message);
         return rejectWithValue(error?.response?.data?.message);
       } else {
-        console.log("General error:", error?.message);
+        // console.log("General error:", error?.message);
         toast.error(error?.message);
         return rejectWithValue(error?.message);
       }

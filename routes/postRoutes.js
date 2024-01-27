@@ -45,6 +45,6 @@ router.route("/fetch-comments/:postId").get(fetchCommentsOfAPost);
 router.route("/schedule-post").post(Authenticate, schedulePost);
 
 // search post by title
-router.route("/search-post").get(searchPostByTitle);
+router.route("/search/:title").get(searchPostByTitle);
 
 export const postRouter = router;
